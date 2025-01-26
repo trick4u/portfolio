@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'custom_cursor.dart';
+import 'metafic_page.dart';
+
 void main() {
-  runApp(MyApp());
+runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -15,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
       ),
-      home: HomePage(),
+      home: MetaficPage(),
     );
   }
 }
@@ -23,20 +26,22 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            HeaderSection(),
-            ProfileSection(),
-            TechnicalExpertiseSection(),
-            ProfessionalExperienceSection(),
-            EducationSection(),
-            CertificatesSection(),
-            ProjectsSection(),
-            InterestsSection(),
-            FooterSection(),
-          ],
+    return CustomCursor(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              HeaderSection(),
+              ProfileSection(),
+              TechnicalExpertiseSection(),
+              ProfessionalExperienceSection(),
+              EducationSection(),
+              CertificatesSection(),
+              ProjectsSection(),
+              InterestsSection(),
+              FooterSection(),
+            ],
+          ),
         ),
       ),
     );
