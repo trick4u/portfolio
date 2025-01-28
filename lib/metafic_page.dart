@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/custom_cursor.dart';
 
 import 'modules/contact_module.dart';
 import 'widgets/appbar.dart';
+import 'widgets/circular_background.dart';
+import 'widgets/hero_section.dart';
 
 class MetaficPage extends StatelessWidget {
   @override
@@ -41,7 +44,7 @@ class MetaficPage extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          DrawerHeader(
+          const DrawerHeader(
             decoration: BoxDecoration(
               color: Colors.blue, // Adjust the color as needed
             ),
@@ -84,65 +87,6 @@ class MetaficPage extends StatelessWidget {
   }
 }
 
-class HeroSection extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height, // Full-screen height
-      width: MediaQuery.of(context).size.width, // Full-screen width
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.blue, Colors.indigo],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'We\'re Metafic.',
-              style: GoogleFonts.poppins(
-                fontSize: 48,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'A Technology Services Company',
-              style: GoogleFonts.poppins(
-                fontSize: 24,
-                color: Colors.white70,
-              ),
-            ),
-            SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: () {
-                // Add action for the button
-              },
-              child: Text(
-                'Explore Our Work',
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                backgroundColor: Colors.orange,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class AboutSection extends StatelessWidget {
   @override
@@ -280,7 +224,7 @@ class FooterSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
       color: Colors.grey[200],
       child: Column(
         children: [

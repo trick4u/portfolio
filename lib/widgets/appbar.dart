@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
@@ -16,7 +13,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Text('Metafic'),
       centerTitle: false,
-      backgroundColor: Colors.blue, // Adjust the color as needed
+      backgroundColor: Colors.white,
       actions: [
         // Show navigation items in a row for larger screens
         if (!isMobileLayout)
@@ -53,7 +50,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         },
         child: Text(
           title,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.black),
         ),
       ),
     );
