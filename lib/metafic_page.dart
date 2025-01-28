@@ -4,14 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/custom_cursor.dart';
 
-
 import 'modules/contact_module.dart';
+import 'widgets/appbar.dart';
 
 class MetaficPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final bool isMobileLayout = MediaQuery.of(context).size.width < 600;
     return CustomCursor(
       child: Scaffold(
+        appBar: CustomAppBar(),
+        drawer: isMobileLayout ? _buildDrawer(context) : null,
         body: ScrollConfiguration(
           behavior: ScrollConfiguration.of(context).copyWith(
             scrollbars: false, // Hide scrollbars
@@ -30,6 +33,53 @@ class MetaficPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildDrawer(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue, // Adjust the color as needed
+            ),
+            child: Text(
+              'Metafic',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          _buildDrawerItem(context, 'Associate'),
+          _buildDrawerItem(context, 'Service'),
+          _buildDrawerItem(context, 'Careers'),
+          _buildDrawerItem(context, 'Blog'),
+          _buildDrawerItem(context, 'Gain Touch'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDrawerItem(BuildContext context, String title) {
+    return ListTile(
+      title: Text(title),
+      onTap: () {
+        // Handle drawer item click
+        _handleNavItemClick(context, title);
+        // Close the drawer
+        Navigator.pop(context);
+      },
+    );
+  }
+
+  void _handleNavItemClick(BuildContext context, String title) {
+    // Handle navigation item click
+    // For example, you can navigate to different pages or show a dialog
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('$title clicked')),
     );
   }
 }
@@ -225,7 +275,6 @@ class ProjectsSection extends StatelessWidget {
     );
   }
 }
-
 
 class FooterSection extends StatelessWidget {
   @override
