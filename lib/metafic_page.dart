@@ -80,8 +80,7 @@ class MetaficPage extends StatelessWidget {
   }
 
   void _handleNavItemClick(BuildContext context, String title) {
-    // Handle navigation item click
-    // For example, you can navigate to different pages or show a dialog
+ 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('$title clicked')),
     );

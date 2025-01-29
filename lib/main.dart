@@ -5,7 +5,7 @@ import 'custom_cursor.dart';
 import 'metafic_page.dart';
 
 void main() {
-runApp(MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -22,4 +22,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
