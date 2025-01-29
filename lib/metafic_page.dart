@@ -4,9 +4,11 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/custom_cursor.dart';
+import 'package:portfolio/widgets/expertise_cursor.dart';
 
 import 'modules/contact_module.dart';
 import 'modules/expertise_section.dart';
+import 'modules/projtect_section.dart';
 import 'widgets/appbar.dart';
 import 'widgets/circular_background.dart';
 import 'widgets/hero_section.dart';
@@ -28,7 +30,7 @@ class MetaficPage extends StatelessWidget {
               children: [
                 HeroSection(),
                 AboutSection(),
-                ExpertiseSection(),
+                ExpertiseCursor(child: ExpertiseSection()),
                 ProjectsSection(),
                 ContactForm(),
                 FooterSection(),
@@ -80,7 +82,6 @@ class MetaficPage extends StatelessWidget {
   }
 
   void _handleNavItemClick(BuildContext context, String title) {
- 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('$title clicked')),
     );
@@ -116,7 +117,7 @@ class AboutSection extends StatelessWidget {
   }
 }
 
-class ProjectsSection extends StatelessWidget {
+class ProjectsSectionOne extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -54,6 +55,7 @@ class _ExpertiseSectionState extends State<ExpertiseSection> {
 
   Color _headerColor = Colors.white;
   final Map<int, bool> _hoveredStates = {};
+  
 
   @override
   Widget build(BuildContext context) {
@@ -66,33 +68,31 @@ class _ExpertiseSectionState extends State<ExpertiseSection> {
 
     return MouseRegion(
       cursor: SystemMouseCursors.none,
-      child: ExpertiseCursor(
-        child: Container(
-          color: const Color(0xFF1A1A1A),
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 20),
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 1200),
-              child: Column(
-                children: [
-                  _buildHeader(),
-                  const SizedBox(height: 40),
-                  GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: crossAxisCount,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                      childAspectRatio: 1.5,
-                    ),
-                    itemCount: expertiseCards.length,
-                    itemBuilder: (context, index) =>
-                        _buildCard(expertiseCards[index], index),
+      child: Container(
+        color: const Color(0xFF1A1A1A),
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 20),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1200),
+            child: Column(
+              children: [
+                _buildHeader(),
+                const SizedBox(height: 40),
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20,
+                    childAspectRatio: 1.5,
                   ),
-                ],
-              ),
+                  itemCount: expertiseCards.length,
+                  itemBuilder: (context, index) =>
+                      FadeInUpBig(child: _buildCard(expertiseCards[index], index),),
+                ),
+              ],
             ),
           ),
         ),
