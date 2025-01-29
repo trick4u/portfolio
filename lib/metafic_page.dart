@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/custom_cursor.dart';
 
 import 'modules/contact_module.dart';
+import 'modules/expertise_section.dart';
 import 'widgets/appbar.dart';
 import 'widgets/circular_background.dart';
 import 'widgets/hero_section.dart';
@@ -87,7 +88,6 @@ class MetaficPage extends StatelessWidget {
   }
 }
 
-
 class AboutSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -110,42 +110,6 @@ class AboutSection extends StatelessWidget {
               color: Colors.grey[700],
             ),
             textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ExpertiseSection extends StatelessWidget {
-  final List<String> skills = [
-    'Flutter, Dart, Native Android, Cross-Platform Development',
-    'GetX, Provider, Bloc, Riverpod',
-    'Firebase Suite, RESTful APIs, SQLite, Cloud Firestore',
-    'MVC, Clean Architecture, SOLID Principles',
-    'Unit Testing, Widget Testing, Integration Testing, CI/CD',
-    'Custom Animations, Material Design, Responsive Layouts',
-    'Git, Android Studio, VS Code, Firebase Console, Jira',
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 60, horizontal: 20),
-      child: Column(
-        children: [
-          Text(
-            'Technical Expertise',
-            style: GoogleFonts.poppins(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 20),
-          Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: skills.map((skill) => Chip(label: Text(skill))).toList(),
           ),
         ],
       ),
@@ -272,6 +236,28 @@ class FooterSection extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class ParallaxWidget extends StatelessWidget {
+  final Widget child;
+  final double offsetFactor;
+
+  ParallaxWidget({required this.child, this.offsetFactor = 0.5});
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return OverflowBox(
+          maxHeight: constraints.maxHeight + 100,
+          child: Transform.translate(
+            offset: Offset(0, -constraints.maxHeight * offsetFactor),
+            child: child,
+          ),
+        );
+      },
     );
   }
 }
