@@ -13,26 +13,60 @@ import 'widgets/appbar.dart';
 import 'widgets/circular_background.dart';
 import 'widgets/hero_section.dart';
 
-class MetaficPage extends StatelessWidget {
+class MetaficPage extends StatefulWidget {
+  @override
+  _MetaficPageState createState() => _MetaficPageState();
+}
+
+class _MetaficPageState extends State<MetaficPage> {
+  final ScrollController _scrollController = ScrollController();
+  final Map<String, GlobalKey> _sectionKeys = {
+    'About Me': GlobalKey(),
+    'Technical Skills': GlobalKey(),
+    'Projects': GlobalKey(),
+    'Contact': GlobalKey(),
+  };
+
+  void _scrollToSection(String section) {
+    final key = _sectionKeys[section];
+    if (key?.currentContext != null) {
+      Scrollable.ensureVisible(
+        key!.currentContext!,
+        duration: const Duration(milliseconds: 600),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool isMobileLayout = MediaQuery.of(context).size.width < 600;
+    
     return CustomCursor(
       child: Scaffold(
-        appBar: CustomAppBar(),
+        appBar: CustomAppBar(onItemClick: _scrollToSection),
         drawer: isMobileLayout ? _buildDrawer(context) : null,
         body: ScrollConfiguration(
           behavior: ScrollConfiguration.of(context).copyWith(
-            scrollbars: false, // Hide scrollbars
+            scrollbars: false,
           ),
           child: SingleChildScrollView(
+            controller: _scrollController,
             child: Column(
               children: [
                 HeroSection(),
-                AboutSection(),
-                ExpertiseCursor(child: ExpertiseSection()),
-                ProjectsSection(),
-                ContactForm(),
+                AboutSection(key: _sectionKeys['About Me']),
+                ExpertiseCursor(
+                  child: ExpertiseSection(key: _sectionKeys['Technical Skills']),
+                ),
+                ProjectsSection(key: _sectionKeys['Projects']),
+                ContactForm(key: _sectionKeys['Contact']),
                 FooterSection(),
               ],
             ),
@@ -49,21 +83,20 @@ class MetaficPage extends StatelessWidget {
         children: [
           const DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.blue, // Adjust the color as needed
+              color: Colors.blue,
             ),
             child: Text(
-              'Metafic',
+              'Tushar',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,
               ),
             ),
           ),
-          _buildDrawerItem(context, 'Associate'),
-          _buildDrawerItem(context, 'Service'),
-          _buildDrawerItem(context, 'Careers'),
-          _buildDrawerItem(context, 'Blog'),
-          _buildDrawerItem(context, 'Gain Touch'),
+          _buildDrawerItem(context, 'About Me'),
+          _buildDrawerItem(context, 'Technical Skills'),
+          _buildDrawerItem(context, 'Projects'),
+          _buildDrawerItem(context, 'Contact'),
         ],
       ),
     );
@@ -73,22 +106,15 @@ class MetaficPage extends StatelessWidget {
     return ListTile(
       title: Text(title),
       onTap: () {
-        // Handle drawer item click
-        _handleNavItemClick(context, title);
-        // Close the drawer
+        _scrollToSection(title);
         Navigator.pop(context);
       },
-    );
-  }
-
-  void _handleNavItemClick(BuildContext context, String title) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('$title clicked')),
     );
   }
 }
 
 class AboutSection extends StatelessWidget {
+   const AboutSection({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(

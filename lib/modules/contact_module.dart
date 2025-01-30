@@ -4,8 +4,9 @@ import '../controllers/contact_controller.dart';
 // Import the controller
 
 class ContactForm extends StatelessWidget {
+  
   final ContactController _controller = Get.put(ContactController());
-
+    ContactForm({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(

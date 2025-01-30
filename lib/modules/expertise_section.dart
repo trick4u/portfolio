@@ -8,11 +8,13 @@ import '../models/expert_model.dart';
 import '../widgets/tilt_card.dart';
 
 class ExpertiseSection extends StatefulWidget {
+  const ExpertiseSection({Key? key}) : super(key: key);
   @override
   _ExpertiseSectionState createState() => _ExpertiseSectionState();
 }
 
 class _ExpertiseSectionState extends State<ExpertiseSection> {
+  
   final List<ExpertiseCard> expertiseCards = [
     ExpertiseCard(
         title: "Core Development",

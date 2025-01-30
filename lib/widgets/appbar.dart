@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final Function(String) onItemClick;
+
+  CustomAppBar({required this.onItemClick});
+
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
 
@@ -11,32 +15,28 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final bool isMobileLayout = MediaQuery.of(context).size.width < 600;
 
     return AppBar(
-      title: Text('Metafic'),
+      title: Text('Tushar'),
       centerTitle: false,
       backgroundColor: Colors.white,
       actions: [
-        // Show navigation items in a row for larger screens
         if (!isMobileLayout)
           Row(
             children: [
-              _buildNavItem(context, 'Associate'),
-              _buildNavItem(context, 'Service'),
-              _buildNavItem(context, 'Careers'),
-              _buildNavItem(context, 'Blog'),
-              _buildNavItem(context, 'Gain Touch'),
+              _buildNavItem(context, 'About Me'),
+              _buildNavItem(context, 'Technical Skills'),
+              _buildNavItem(context, 'Projects'),
+              _buildNavItem(context, 'Contact'),
             ],
           ),
       ],
-      // Show hamburger menu only in mobile layout
       leading: isMobileLayout
           ? IconButton(
               icon: Icon(Icons.menu),
               onPressed: () {
-                // Open the drawer
                 Scaffold.of(context).openDrawer();
               },
             )
-          : null, // No leading widget for larger screens
+          : null,
     );
   }
 
@@ -44,23 +44,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: TextButton(
-        onPressed: () {
-          // Handle navigation item click
-          _handleNavItemClick(context, title);
-        },
+        onPressed: () => onItemClick(title),
         child: Text(
           title,
           style: const TextStyle(color: Colors.black),
         ),
       ),
-    );
-  }
-
-  void _handleNavItemClick(BuildContext context, String title) {
-    // Handle navigation item click
-    // For example, you can navigate to different pages or show a dialog
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('$title clicked')),
     );
   }
 }
