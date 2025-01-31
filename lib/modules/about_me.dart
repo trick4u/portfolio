@@ -19,46 +19,53 @@ class _AboutSectionState extends State<AboutSection> {
     final isTablet = screenWidth > 800 && screenWidth <= 1200;
     final isMobile = screenWidth <= 800;
 
-    return Container(
-      color: Colors.white,
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              MouseRegion(
-                onEnter: (_) => setState(() => _isHovered = true),
-                onExit: (_) => setState(() => _isHovered = false),
-                child: AnimatedDefaultTextStyle(
-                  duration: const Duration(milliseconds: 200),
-                  style: GoogleFonts.poppins(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: _isHovered
-                        ? Colors.red
-                        : Colors
-                            .black, // You can add hover color logic if needed
+    return MouseRegion(
+      onEnter: (_) =>
+          setState(() => _isHovered = true), // Set hover state to true
+      onExit: (_) => setState(() => _isHovered = false),
+      child: Theme(
+        data: ThemeData(
+          dividerColor: Colors.transparent,
+        ),
+        child: Container(
+          color: _isHovered ? const Color(0xFF1A1A1A) : Colors.white,
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1200),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MouseRegion(
+                    onEnter: (_) => setState(() => _isHovered = true),
+                    onExit: (_) => setState(() => _isHovered = false),
+                    child: AnimatedDefaultTextStyle(
+                      duration: const Duration(milliseconds: 200),
+                      style: GoogleFonts.poppins(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: _isHovered ? Colors.red : Colors.black,
+                      ),
+                      child: const Text(
+                        'About me', // Keep your original title
+                        textAlign: TextAlign.left, // Add this
+                      ),
+                    ),
                   ),
-                  child: const Text(
-                    'About Me',
-                    textAlign: TextAlign.left,
+                  const SizedBox(height: 40),
+                  Text(
+                    "Senior Flutter Developer with 5+ years of expertise since Flutter's initial stable release. Proven track  record in architecting and delivering high-performance, scalable mobile and web applications. Specialized in advanced state management, complex API integrations, and Firebase implementations. Distinguished for creating battery-efficient applications with comprehensive testing coverage and exceptional user experiences.",
+                    textDirection: TextDirection.ltr,
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      color: _isHovered ? Colors.white : Colors.black,
+                    ),
+                    textAlign: isMobile ? TextAlign.center : TextAlign.left,
                   ),
-                ),
+                ],
               ),
-              const SizedBox(height: 40),
-              Text(
-                "Senior Flutter Developer with 5+ years of expertise since Flutter's initial stable release. Proven track  record in architecting and delivering high-performance, scalable mobile and web applications. Specialized in advanced state management, complex API integrations, and Firebase implementations. Distinguished for creating battery-efficient applications with comprehensive testing coverage and exceptional user experiences.",
-                textDirection: TextDirection.ltr,
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  color: Colors.grey[700],
-                ),
-                textAlign: isMobile ? TextAlign.center : TextAlign.left,
-              ),
-            ],
+            ),
           ),
         ),
       ),

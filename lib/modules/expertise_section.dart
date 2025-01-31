@@ -14,7 +14,6 @@ class ExpertiseSection extends StatefulWidget {
 }
 
 class _ExpertiseSectionState extends State<ExpertiseSection> {
-  
   final List<ExpertiseCard> expertiseCards = [
     ExpertiseCard(
         title: "Core Development",
@@ -57,7 +56,6 @@ class _ExpertiseSectionState extends State<ExpertiseSection> {
 
   Color _headerColor = Colors.white;
   final Map<int, bool> _hoveredStates = {};
-  
 
   @override
   Widget build(BuildContext context) {
@@ -91,8 +89,9 @@ class _ExpertiseSectionState extends State<ExpertiseSection> {
                     childAspectRatio: 1.5,
                   ),
                   itemCount: expertiseCards.length,
-                  itemBuilder: (context, index) =>
-                      FadeInUpBig(child: _buildCard(expertiseCards[index], index),),
+                  itemBuilder: (context, index) => FadeInUpBig(
+                    child: _buildCard(expertiseCards[index], index),
+                  ),
                 ),
               ],
             ),

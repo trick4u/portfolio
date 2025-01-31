@@ -7,8 +7,11 @@ import 'package:portfolio/custom_cursor.dart';
 import 'package:portfolio/widgets/expertise_cursor.dart';
 
 import 'modules/about_me.dart';
+import 'modules/certificate_section.dart';
 import 'modules/contact_module.dart';
+import 'modules/combined_sections.dart';
 import 'modules/expertise_section.dart';
+import 'modules/interests_section.dart';
 import 'modules/projtect_section.dart';
 import 'widgets/appbar.dart';
 import 'widgets/circular_background.dart';
@@ -26,6 +29,9 @@ class _MetaficPageState extends State<MetaficPage> {
     'Technical ': GlobalKey(),
     'Projects': GlobalKey(),
     'Contact': GlobalKey(),
+    'Certificates': GlobalKey(), // Add GlobalKey for Certificates
+    'Education': GlobalKey(), // Add GlobalKey for Education
+    'Interests': GlobalKey(), // Add GlobalKey for Interests
   };
 
   void _scrollToSection(String section) {
@@ -37,12 +43,6 @@ class _MetaficPageState extends State<MetaficPage> {
         curve: Curves.easeInOut,
       );
     }
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
   }
 
   @override
@@ -60,6 +60,7 @@ class _MetaficPageState extends State<MetaficPage> {
           child: SingleChildScrollView(
             controller: _scrollController,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 HeroSection(),
                 AboutSection(key: _sectionKeys['About Me']),
@@ -67,6 +68,11 @@ class _MetaficPageState extends State<MetaficPage> {
                   child: ExpertiseSection(key: _sectionKeys['Technical ']),
                 ),
                 ProjectsSection(key: _sectionKeys['Projects']),
+                CombinedSections(
+                  certificatesKey: _sectionKeys['Certificates']!,
+                  educationKey: _sectionKeys['Education']!,
+                  interestsKey: _sectionKeys['Interests']!,
+                ),
                 ContactForm(key: _sectionKeys['Contact']),
                 FooterSection(),
               ],
@@ -95,9 +101,12 @@ class _MetaficPageState extends State<MetaficPage> {
             ),
           ),
           _buildDrawerItem(context, 'About Me'),
-          _buildDrawerItem(context, 'Technical Skills'),
+          _buildDrawerItem(context, 'Technical '),
           _buildDrawerItem(context, 'Projects'),
           _buildDrawerItem(context, 'Contact'),
+          _buildDrawerItem(context, 'Certificates'),
+          _buildDrawerItem(context, 'Education'),
+          _buildDrawerItem(context, 'Interests'),
         ],
       ),
     );

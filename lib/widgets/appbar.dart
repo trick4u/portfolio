@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Function(String) onItemClick;
@@ -27,6 +28,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 _buildNavItem(context, 'About Me'),
                 _buildNavItem(context, 'Technical '),
                 _buildNavItem(context, 'Projects'),
+                _buildNavItem(context, 'Contact'),
+                _buildNavItem(context, 'Certificates'),
+                _buildNavItem(context, 'Education'),
+                _buildNavItem(context, 'Interests'),
                 _buildNavItem(context, 'Contact'),
               ],
             ),
@@ -63,9 +68,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             onTap: () => onItemClick(title),
             child: Text(
               title,
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: isHovering ? Colors.red : Colors.black,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
               ),
             ),
           );
