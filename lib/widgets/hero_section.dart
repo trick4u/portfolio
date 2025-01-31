@@ -64,6 +64,7 @@ class _HeroSectionState extends State<HeroSection>
       ),
     );
   }
+
   ParticleOptions get particles => ParticleOptions(
         baseColor: _colors[_colorIndex],
         spawnOpacity: 0.0,
@@ -88,55 +89,95 @@ class _HeroSectionState extends State<HeroSection>
   }
 
   Widget _buildMobileLayout(BuildContext context) {
+    List<String> animatedTexts = [
+      "Experienced",
+      "Professional",
+      "Flutter Developer",
+      "Firebase expert",
+      "Creative",
+    ];
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'We\'re Metafic.',
-            style: GoogleFonts.poppins(
-              fontSize: 40, // Smaller font size for mobile
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 20),
-          AnimatedTextKit(
-            animatedTexts: [
-              TypewriterAnimatedText(
-                'A Technology Services Company',
-                textStyle: GoogleFonts.poppins(
-                  fontSize: 18, // Smaller font size for mobile
-                ),
-                speed: Duration(milliseconds: 100),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: "I'm ",
+                    style: GoogleFonts.poppins(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      height: 0.9,
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'Tushar',
+                    style: GoogleFonts.poppins(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                      height: 0.9,
+                    ),
+                  ),
+                  TextSpan(
+                    text: ".",
+                    style: GoogleFonts.poppins(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      height: 0.9,
+                    ),
+                  ),
+                ],
               ),
-            ],
-            totalRepeatCount: 1,
-            pause: Duration(milliseconds: 500),
-            displayFullTextOnTap: true,
-            stopPauseOnTap: true,
-          ),
-          SizedBox(height: 40),
-          ElevatedButton(
-            onPressed: () {
-              // Add action for the button
-            },
-            child: Text(
-              'Explore Our Work',
+            ),
+            Text(
+              'A Flutter Developer',
               style: GoogleFonts.poppins(
-                fontSize: 14, // Smaller font size for mobile
-                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                fontWeight: FontWeight.w300,
+                color: Colors.black,
               ),
             ),
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 20, vertical: 10), // Smaller padding for mobile
-              backgroundColor: Colors.blueAccent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
+            Text(
+              'Building Cross-Platform',
+              style: GoogleFonts.poppins(
+                fontSize: 24,
+                fontWeight: FontWeight.w300,
+                color: Colors.black,
               ),
             ),
-          ),
-        ],
+            Text(
+              'Applications',
+              style: GoogleFonts.poppins(
+                fontSize: 24,
+                fontWeight: FontWeight.w300,
+                color: Colors.black,
+              ),
+            ),
+            AnimatedTextKit(
+              animatedTexts: animatedTexts
+                  .map((text) => TypewriterAnimatedText(
+                        text,
+                        textStyle: GoogleFonts.poppins(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.black,
+                        ),
+                        cursor: "|",
+                      ))
+                  .toList(),
+              repeatForever: true,
+              pause: Duration(seconds: 2),
+            ),
+            SizedBox(height: 40),
+          ],
+        ),
       ),
     );
   }

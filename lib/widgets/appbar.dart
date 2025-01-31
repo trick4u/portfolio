@@ -20,13 +20,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.white,
       actions: [
         if (!isMobileLayout)
-          Row(
-            children: [
-              _buildNavItem(context, 'About Me'),
-              _buildNavItem(context, 'Technical Skills'),
-              _buildNavItem(context, 'Projects'),
-              _buildNavItem(context, 'Contact'),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              children: [
+                _buildNavItem(context, 'About Me'),
+                _buildNavItem(context, 'Technical '),
+                _buildNavItem(context, 'Projects'),
+                _buildNavItem(context, 'Contact'),
+              ],
+            ),
           ),
       ],
       leading: isMobileLayout
@@ -41,14 +44,32 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _buildNavItem(BuildContext context, String title) {
+    bool isHovering = false; // Add this variable to track hover state
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: TextButton(
-        onPressed: () => onItemClick(title),
-        child: Text(
-          title,
-          style: const TextStyle(color: Colors.black),
-        ),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: StatefulBuilder(builder: (context, setState) {
+          return InkWell(
+            hoverColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            splashFactory: NoSplash.splashFactory,
+            onHover: (hovering) {
+              setState(() {
+                isHovering = hovering;
+              });
+            },
+            onTap: () => onItemClick(title),
+            child: Text(
+              title,
+              style: TextStyle(
+                color: isHovering ? Colors.red : Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          );
+        }),
       ),
     );
   }
