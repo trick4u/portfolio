@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/custom_cursor.dart';
 import 'package:portfolio/widgets/expertise_cursor.dart';
 
+import 'modules/about_me.dart';
 import 'modules/contact_module.dart';
 import 'modules/expertise_section.dart';
 import 'modules/projtect_section.dart';
@@ -22,7 +23,7 @@ class _MetaficPageState extends State<MetaficPage> {
   final ScrollController _scrollController = ScrollController();
   final Map<String, GlobalKey> _sectionKeys = {
     'About Me': GlobalKey(),
-    'Technical Skills': GlobalKey(),
+    'Technical ': GlobalKey(),
     'Projects': GlobalKey(),
     'Contact': GlobalKey(),
   };
@@ -47,7 +48,7 @@ class _MetaficPageState extends State<MetaficPage> {
   @override
   Widget build(BuildContext context) {
     final bool isMobileLayout = MediaQuery.of(context).size.width < 600;
-    
+
     return CustomCursor(
       child: Scaffold(
         appBar: CustomAppBar(onItemClick: _scrollToSection),
@@ -63,7 +64,7 @@ class _MetaficPageState extends State<MetaficPage> {
                 HeroSection(),
                 AboutSection(key: _sectionKeys['About Me']),
                 ExpertiseCursor(
-                  child: ExpertiseSection(key: _sectionKeys['Technical Skills']),
+                  child: ExpertiseSection(key: _sectionKeys['Technical ']),
                 ),
                 ProjectsSection(key: _sectionKeys['Projects']),
                 ContactForm(key: _sectionKeys['Contact']),
@@ -109,36 +110,6 @@ class _MetaficPageState extends State<MetaficPage> {
         _scrollToSection(title);
         Navigator.pop(context);
       },
-    );
-  }
-}
-
-class AboutSection extends StatelessWidget {
-   const AboutSection({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 60, horizontal: 20),
-      child: Column(
-        children: [
-          Text(
-            'About Me',
-            style: GoogleFonts.poppins(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 20),
-          Text(
-            'Senior Flutter Developer with 5+ years of expertise since Flutter’s initial stable release. Proven track record in architecting and delivering high-performance, scalable mobile and web applications. Specialized in advanced state management, complex API integrations, and Firebase implementations.',
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-              color: Colors.grey[700],
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
     );
   }
 }

@@ -52,8 +52,12 @@ class _HeroSectionState extends State<HeroSection>
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
 
+    // Adjust height for mobile layout
+    final double sectionHeight =
+        isMobileLayout ? screenHeight * 0.5 : screenHeight;
+
     return Container(
-      height: screenHeight,
+      height: sectionHeight, // Use adjusted height
       width: screenWidth,
       child: AnimatedBackground(
         behaviour: RandomParticleBehaviour(options: particles),
