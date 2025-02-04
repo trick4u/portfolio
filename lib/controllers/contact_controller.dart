@@ -4,45 +4,91 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ContactController extends GetxController {
-  // Form field controllers
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final messageController = TextEditingController();
+  final isLoading = false.obs;
+  final hasContent = false.obs;
 
-  // Regex for email validation
-  final _emailRegex = RegExp(
-    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-  );
+  DateTime? _lastMessageTime;
+  static const int _cooldownMinutes = 2;
 
-  // Observable for loading state
-  var isLoading = false.obs;
+  final _emailRegex =
+      RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
 
-  // Validate the form
+  @override
+  void onInit() {
+    super.onInit();
+    nameController.addListener(updateContentStatus);
+    emailController.addListener(updateContentStatus);
+    messageController.addListener(updateContentStatus);
+  }
+
+  void updateContentStatus() {
+    hasContent.value = nameController.text.isNotEmpty &&
+        emailController.text.isNotEmpty &&
+        messageController.text.isNotEmpty;
+  }
+
+  void _showErrorDialog(String message) {
+    Get.dialog(
+      AlertDialog(
+        title: const Text('Error'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  bool _checkRateLimit() {
+    if (_lastMessageTime != null) {
+      final timeSinceLastMessage = DateTime.now().difference(_lastMessageTime!);
+      if (timeSinceLastMessage.inMinutes < _cooldownMinutes) {
+        final remainingTime = _cooldownMinutes - timeSinceLastMessage.inMinutes;
+        _showErrorDialog(
+            'Please wait $remainingTime minute${remainingTime > 1 ? 's' : ''} before sending another message.');
+        return false;
+      }
+    }
+    return true;
+  }
+
   bool validateForm() {
     if (nameController.text.isEmpty) {
-      Get.snackbar('Error', 'Please enter your name');
+      _showErrorDialog('Please enter your name');
       return false;
     }
     if (emailController.text.isEmpty) {
-      Get.snackbar('Error', 'Please enter your email');
+      _showErrorDialog('Please enter your email');
       return false;
     }
     if (!_emailRegex.hasMatch(emailController.text)) {
-      Get.snackbar('Error', 'Please enter a valid email address');
+      _showErrorDialog('Please enter a valid email address');
       return false;
     }
     if (messageController.text.isEmpty) {
-      Get.snackbar('Error', 'Please enter your message');
+      _showErrorDialog('Please enter your message');
       return false;
     }
     return true;
   }
 
-  // Send email using EmailJS
-  Future<void> sendEmail() async {
-    if (!validateForm()) return;
+  void _clearForm() {
+    nameController.clear();
+    emailController.clear();
+    messageController.clear();
+    hasContent.value = false;
+  }
 
-    isLoading.value = true; // Show loading indicator
+  Future<void> sendEmail() async {
+    if (!validateForm() || !_checkRateLimit()) return;
+
+    isLoading.value = true;
 
     const serviceId = 'service_in9m8sl';
     const templateId = 'template_kckc8ej';
@@ -53,9 +99,7 @@ class ContactController extends GetxController {
     try {
       final response = await http.post(
         url,
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'service_id': serviceId,
           'template_id': templateId,
@@ -69,20 +113,37 @@ class ContactController extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        Get.snackbar('Success', 'Message sent successfully!');
+        _lastMessageTime = DateTime.now();
+        _showSuccessDialog('Message sent successfully!');
+        _clearForm();
       } else {
-        Get.snackbar('Error', 'Failed to send message. Please try again.');
+        _showErrorDialog('Failed to send message. Please try again later.');
       }
     } catch (e) {
-      Get.snackbar('Error', 'An error occurred. Please try again.');
+      _showErrorDialog(
+          'Network error. Please check your connection and try again.');
     } finally {
-      isLoading.value = false; // Hide loading indicator
+      isLoading.value = false;
     }
+  }
+
+  void _showSuccessDialog(String message) {
+    Get.dialog(
+      AlertDialog(
+        title: const Text('Success'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   void onClose() {
-    // Dispose controllers when the controller is closed
     nameController.dispose();
     emailController.dispose();
     messageController.dispose();

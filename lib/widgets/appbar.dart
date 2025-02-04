@@ -28,7 +28,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 _buildNavItem(context, 'About Me'),
                 _buildNavItem(context, 'Technical '),
                 _buildNavItem(context, 'Projects'),
-                _buildNavItem(context, 'Contact'),
                 _buildNavItem(context, 'Certificates'),
                 _buildNavItem(context, 'Education'),
                 _buildNavItem(context, 'Interests'),

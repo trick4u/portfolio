@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/custom_cursor.dart';
 import 'package:portfolio/widgets/expertise_cursor.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'modules/about_me.dart';
 import 'modules/certificate_section.dart';
@@ -191,9 +192,17 @@ class ProjectsSectionOne extends StatelessWidget {
 }
 
 class FooterSection extends StatelessWidget {
+  Future<void> _launchUrl(String urlString) async {
+    final Uri url = Uri.parse(urlString);
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
       color: Colors.grey[200],
       child: Column(
@@ -211,8 +220,8 @@ class FooterSection extends StatelessWidget {
             children: [
               _buildSocialLink(Icons.email, 'thinkbrain10@gmail.com'),
               _buildSocialLink(Icons.phone, '+91 9975768621'),
-              _buildSocialLink(Icons.link, 'github.com/irick4u'),
-              _buildSocialLink(Icons.link, 'dribbble.com/designtranscend'),
+              _buildSocialLinkWithUrl(Icons.link, 'https://github.com/trick4u', 'https://github.com/trick4u'),
+              _buildSocialLinkWithUrl(Icons.link, 'https://dribbble.com/designtranscend', 'https://dribbble.com/designtranscend'),
             ],
           ),
           SizedBox(height: 20),
@@ -242,6 +251,27 @@ class FooterSection extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildSocialLinkWithUrl(IconData icon, String text, String url) {
+    return GestureDetector(
+      onTap: () => _launchUrl(url),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: Colors.blue, size: 16),
+          SizedBox(width: 5),
+          Text(
+            text,
+            style: GoogleFonts.poppins(
+              fontSize: 14,
+              color: Colors.blue,
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
