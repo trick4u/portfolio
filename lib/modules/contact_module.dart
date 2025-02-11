@@ -14,7 +14,9 @@ class ContactForm extends StatelessWidget {
     final isMobile = screenWidth <= 800;
 
     return Container(
-      margin: const EdgeInsets.all(50),
+      color: Colors.white,
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
       child: isMobile
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +50,7 @@ class ContactForm extends StatelessWidget {
         Text(
           "Let's Connect!",
           style: GoogleFonts.poppins(
-            fontSize: 48,
+            fontSize: 32,
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
@@ -57,7 +59,7 @@ class ContactForm extends StatelessWidget {
         Text(
           "Have a project in mind? Want to collaborate? Or just want to say hi? Feel free to reach out!",
           style: GoogleFonts.poppins(
-            fontSize: 24,
+            fontSize: 16,
             color: Colors.grey[700],
           ),
         ),

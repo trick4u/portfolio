@@ -5,8 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Function(String) onItemClick;
+  final ScrollController scrollController;
 
-  CustomAppBar({required this.onItemClick});
+  CustomAppBar({required this.onItemClick,    required this.scrollController,});
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
@@ -16,7 +17,22 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final bool isMobileLayout = MediaQuery.of(context).size.width < 600;
 
     return AppBar(
-      title: Text('Tushar'),
+      title: MouseRegion(
+          cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: () {
+              scrollController.animateTo(
+                0,
+                duration: Duration(milliseconds: 600),
+                curve: Curves.easeInOut,
+              );
+            },
+          child: Text(
+            'Tushar',
+            style: TextStyle(color: Colors.red),
+          ),
+        ),
+      ),
       centerTitle: false,
       backgroundColor: Colors.white,
       actions: [

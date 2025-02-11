@@ -52,7 +52,7 @@ class _MetaficPageState extends State<MetaficPage> {
 
     return CustomCursor(
       child: Scaffold(
-        appBar: CustomAppBar(onItemClick: _scrollToSection),
+        appBar: CustomAppBar(onItemClick: _scrollToSection, scrollController: _scrollController,),
         drawer: isMobileLayout ? _buildDrawer(context) : null,
         body: ScrollConfiguration(
           behavior: ScrollConfiguration.of(context).copyWith(
@@ -86,28 +86,48 @@ class _MetaficPageState extends State<MetaficPage> {
 
   Widget _buildDrawer(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        Icons.close,
+                        size: 30,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+                _buildDrawerItem(context, 'About Me'),
+                _buildDrawerItem(context, 'Technical '),
+                _buildDrawerItem(context, 'Projects'),
+                _buildDrawerItem(context, 'Certificates'),
+                _buildDrawerItem(context, 'Education'),
+                _buildDrawerItem(context, 'Interests'),
+                _buildDrawerItem(context, 'Contact'),
+              ],
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Text(
-              'Tushar',
+              '© 2025 Metafic LLC, US. All rights reserved',
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
+                color: Colors.grey[600],
+                fontSize: 12,
               ),
             ),
           ),
-          _buildDrawerItem(context, 'About Me'),
-          _buildDrawerItem(context, 'Technical '),
-          _buildDrawerItem(context, 'Projects'),
-          _buildDrawerItem(context, 'Contact'),
-          _buildDrawerItem(context, 'Certificates'),
-          _buildDrawerItem(context, 'Education'),
-          _buildDrawerItem(context, 'Interests'),
         ],
       ),
     );
@@ -220,13 +240,24 @@ class FooterSection extends StatelessWidget {
             children: [
               _buildSocialLink(Icons.email, 'thinkbrain10@gmail.com'),
               _buildSocialLink(Icons.phone, '+91 9975768621'),
-              _buildSocialLinkWithUrl(Icons.link, 'https://github.com/trick4u', 'https://github.com/trick4u'),
-              _buildSocialLinkWithUrl(Icons.link, 'https://dribbble.com/designtranscend', 'https://dribbble.com/designtranscend'),
+              _buildSocialLinkWithUrl(Icons.link, 'https://github.com/trick4u',
+                  'https://github.com/trick4u'),
+              _buildSocialLinkWithUrl(
+                  Icons.link,
+                  'https://dribbble.com/designtranscend',
+                  'https://dribbble.com/designtranscend'),
             ],
           ),
           SizedBox(height: 20),
           Text(
             '© 2024 Tushar Sekkaranantri. All rights reserved.',
+            style: GoogleFonts.poppins(
+              fontSize: 14,
+              color: Colors.grey[700],
+            ),
+          ),
+          Text(
+            'Made with ❤️ Flutter!!',
             style: GoogleFonts.poppins(
               fontSize: 14,
               color: Colors.grey[700],
@@ -253,9 +284,10 @@ class FooterSection extends StatelessWidget {
       ],
     );
   }
-
-  Widget _buildSocialLinkWithUrl(IconData icon, String text, String url) {
-    return GestureDetector(
+Widget _buildSocialLinkWithUrl(IconData icon, String text, String url) {
+  return MouseRegion(
+    cursor: SystemMouseCursors.click,
+    child: GestureDetector(
       onTap: () => _launchUrl(url),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -267,13 +299,13 @@ class FooterSection extends StatelessWidget {
             style: GoogleFonts.poppins(
               fontSize: 14,
               color: Colors.blue,
-              decoration: TextDecoration.underline,
             ),
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 }
 
 class ParallaxWidget extends StatelessWidget {
