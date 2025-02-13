@@ -12,6 +12,7 @@ class ContactController extends GetxController {
 
   DateTime? _lastMessageTime;
   static const int _cooldownMinutes = 2;
+    final isSuccess = false.obs;
 
   final _emailRegex =
       RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
@@ -24,14 +25,16 @@ class ContactController extends GetxController {
     messageController.addListener(updateContentStatus);
   }
 
-  void updateContentStatus() {
-    hasContent.value = nameController.text.isNotEmpty &&
-        emailController.text.isNotEmpty &&
-        messageController.text.isNotEmpty;
-  }
+void updateContentStatus() {
+  hasContent.value = nameController.text.isNotEmpty &&
+      emailController.text.isNotEmpty &&
+      messageController.text.isNotEmpty;
+}
 
-  void _showErrorDialog(String message) {
+void _showErrorDialog(String message) {
+  if (Get.context != null) {  // Check if context is available
     Get.dialog(
+      barrierDismissible: false,  // Prevent dismissing by tapping outside
       AlertDialog(
         title: const Text('Error'),
         content: Text(message),
@@ -44,6 +47,7 @@ class ContactController extends GetxController {
       ),
     );
   }
+}
 
   bool _checkRateLimit() {
     if (_lastMessageTime != null) {
@@ -79,68 +83,77 @@ class ContactController extends GetxController {
   }
 
   void _clearForm() {
-    nameController.clear();
-    emailController.clear();
-    messageController.clear();
-    hasContent.value = false;
+     nameController.clear();
+  emailController.clear();
+  messageController.clear();
+  hasContent.value = false;
   }
 
-  Future<void> sendEmail() async {
-    if (!validateForm() || !_checkRateLimit()) return;
+Future<void> sendEmail() async {
+  if (!validateForm() || !_checkRateLimit()) return;
 
-    isLoading.value = true;
+  isLoading.value = true;
 
-    const serviceId = 'service_in9m8sl';
-    const templateId = 'template_kckc8ej';
-    const userId = 'p_Go_zT5XFzCrvKJU';
+  const serviceId = 'service_in9m8sl';
+  const templateId = 'template_kckc8ej';
+  const userId = 'p_Go_zT5XFzCrvKJU';
 
-    final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+  final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
 
-    try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode({
-          'service_id': serviceId,
-          'template_id': templateId,
-          'user_id': userId,
-          'template_params': {
-            'name': nameController.text,
-            'email': emailController.text,
-            'message': messageController.text,
-          },
-        }),
-      );
+  try {
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        'service_id': serviceId,
+        'template_id': templateId,
+        'user_id': userId,
+        'template_params': {
+          'from_name': nameController.text,
+          'from_email': emailController.text,
+          'message': messageController.text,
+        },
+      }),
+    );
 
-      if (response.statusCode == 200) {
-        _lastMessageTime = DateTime.now();
-        _showSuccessDialog('Message sent successfully!');
-        _clearForm();
-      } else {
-        _showErrorDialog('Failed to send message. Please try again later.');
-      }
-    } catch (e) {
-      _showErrorDialog(
-          'Network error. Please check your connection and try again.');
-    } finally {
-      isLoading.value = false;
+    if (response.statusCode == 200) {
+      _lastMessageTime = DateTime.now();
+      _clearForm();
+      _showSuccessDialog('Message sent successfully!');
+    } else {
+      _showErrorDialog('Failed to send message. Please try again later.');
     }
+  } catch (e) {
+    _showErrorDialog(
+        'Network error. Please check your connection and try again.');
+  } finally {
+    isLoading.value = false;
   }
+}
 
-  void _showSuccessDialog(String message) {
+void _showSuccessDialog(String message) {
+  if (Get.context != null) {  // Check if context is available
     Get.dialog(
+      barrierDismissible: false,  // Prevent dismissing by tapping outside
       AlertDialog(
         title: const Text('Success'),
         content: Text(message),
         actions: [
           TextButton(
-            onPressed: () => Get.back(),
+            onPressed: () {
+              Get.back();
+              isSuccess.value = true;  // Set success after dialog is closed
+            },
             child: const Text('OK'),
           ),
         ],
       ),
     );
+  } else {
+    // If context is not available, just set the success value
+    isSuccess.value = true;
   }
+}
 
   @override
   void onClose() {

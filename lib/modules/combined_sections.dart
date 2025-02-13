@@ -68,7 +68,7 @@ class _CombinedSectionsState extends State<CombinedSections> {
                         fontSize: 16,
                         color: _isHovered ? Colors.white : Colors.black,
                       ),
-                      textAlign: isMobile ? TextAlign.center : TextAlign.left,
+                      textAlign: isMobile ? TextAlign.left : TextAlign.left,
                     ),
                   ],
                 ),
@@ -117,7 +117,7 @@ class _CombinedSectionsState extends State<CombinedSections> {
                         color:
                             _isHoveredInterests ? Colors.white : Colors.black,
                       ),
-                      textAlign: isMobile ? TextAlign.center : TextAlign.left,
+                      textAlign: isMobile ? TextAlign.left : TextAlign.left,
                     ),
                   ],
                 ),
@@ -166,7 +166,7 @@ class _CombinedSectionsState extends State<CombinedSections> {
                         color:
                             _isHoveredEducation ? Colors.white : Colors.black,
                       ),
-                      textAlign: isMobile ? TextAlign.center : TextAlign.left,
+                      textAlign: isMobile ? TextAlign.left : TextAlign.left,
                     ),
                   ],
                 ),

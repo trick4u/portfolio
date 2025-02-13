@@ -112,8 +112,9 @@ class _MetaficPageState extends State<MetaficPage> {
                 _buildDrawerItem(context, 'Technical '),
                 _buildDrawerItem(context, 'Projects'),
                 _buildDrawerItem(context, 'Certificates'),
+                 _buildDrawerItem(context, 'Interests'),
                 _buildDrawerItem(context, 'Education'),
-                _buildDrawerItem(context, 'Interests'),
+               
                 _buildDrawerItem(context, 'Contact'),
               ],
             ),

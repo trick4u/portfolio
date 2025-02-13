@@ -61,7 +61,7 @@ class _AboutSectionState extends State<AboutSection> {
                       fontSize: 16,
                       color: _isHovered ? Colors.white : Colors.black,
                     ),
-                    textAlign: isMobile ? TextAlign.center : TextAlign.left,
+                    textAlign: isMobile ? TextAlign.left : TextAlign.left,
                   ),
                 ],
               ),
